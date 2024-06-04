@@ -1,0 +1,38 @@
+{
+  "name": "servidor-tfg-fpa",
+  "version": "0.2.1",
+  "description": "Project structure",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js test=false",
+    "dev": "nodemon index.js test=false",
+    "testW": "node_modules\\.bin\\jasmine servidor\\modeloSpec.js",
+    "test": "./node_modules/.bin/jasmine servidor"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@google-cloud/secret-manager": "^5.0.1",
+    "atob": "^2.1.2",
+    "bcrypt": "^5.1.1",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.20.2",
+    "cookie-session": "^2.0.0",
+    "cors": "^2.8.5",
+    "crypto-js": "^4.2.0",
+    "cypress": "^13.6.1",
+    "express": "^4.18.2",
+    "http": "^0.0.1-security",
+    "jasmine": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongodb": "^4.17.2",
+    "nodemailer": "^6.9.7",
+    "passport": "^0.5.3",
+    "passport-google-oauth20": "^2.0.0",
+    "passport-google-one-tap": "^1.0.1",
+    "socket.io": "^4.7.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}
