@@ -48,7 +48,7 @@ test=eval(args[0]); //test=true test=false
 
 app.use(express.static(__dirname + "/"));
 app.use(cookieSession({
-    name: 'Pagina Ancianos',
+    name: 'TFG',
     keys: ['key1', 'key2']
 }));
 app.use(bodyParser.urlencoded({extended:true}));
@@ -134,25 +134,6 @@ app.get("/cierre", function(request, response)
     response.send(contenido);
 });
 
-app.get("/obtenerUsuarios", haIniciado, function(request, response)
-{
-    let lista=sistema.obtenerUsuarios();
-    response.send(lista);
-});
-
-app.get("/usuarioActivo/:email", haIniciado, function(request,response)
-{
-    let email=request.params.email;
-    let res=sistema.usuarioActivo(email);
-    response.send(res);
-});
-
-app.get("/numeroUsuarios", haIniciado, function(request,response)
-{
-    let res=sistema.numeroUsuarios();
-    response.send(res);
-});
-
 app.get("/eliminarUsuario/:email", haIniciado, function(request,response)
 {
     let email=request.params.email;
@@ -174,12 +155,6 @@ app.get("/comprobarUsuario/:email", haIniciado, function(request,response)
     }
   })
 
-app.get("obtenerUsuariosDB", haIniciado, function(request, response){
-    sistema.obtenerUsuariosDB(function(lista){
-        response.send(lista);
-    })
-});
-
 app.get("/obtenerUsuario/:email", haIniciado, function(request, response)
 {
     let email = request.params.email;
@@ -188,14 +163,7 @@ app.get("/obtenerUsuario/:email", haIniciado, function(request, response)
     {
         response.send(lista);
     })
-});
-
-app.get("obtenerLogs", haIniciado, function(request, response){
-    sistema.obtenerLogs(function(lista){
-        response.send(lista);
-    })
-})
-  
+});  
 
 app.get("/confirmarUsuario/:email/:key", function(request, response)
 {

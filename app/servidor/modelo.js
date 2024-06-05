@@ -260,11 +260,6 @@ function Sistema(test)
     })
   }
 
-  this.obtenerUsuarios = function()
-  {
-    return this.usuarios;
-  }
-
   this.obtenerUsuario = function(obj, callback)
   {
     let user;
@@ -289,13 +284,6 @@ function Sistema(test)
     return Object.keys(this.usuarios);
   }
 
-  this.usuarioActivo = function(email)
-  {
-    let res={activo:false};
-    res.activo=(email in this.usuarios);
-    return res;
-  }
-
   this.eliminarUsuario = function(email)
   {
     let res={"email":-1};
@@ -311,33 +299,6 @@ function Sistema(test)
       console.log("El usuario no existe");
     }
 
-    return res;
-  }
-
-  this.obtenerUsuariosDB = function(callback)
-  {
-      this.cad.buscarTodosUsuarios(function(lista)
-      {
-          callback(lista);
-      })
-  }
-
-  this.obtenerLogs = function(callback)
-  {
-      this.cad.buscarLogs(function(lista)
-      {
-          callback(lista);
-      })
-  }
-
-  this.numeroUsuarios = function()
-  {
-    let res = {"num": 0}
-
-    if (Object.keys(this.usuarios)) 
-    {
-      res.num = Object.keys(this.usuarios).length
-    }
     return res;
   }
 
