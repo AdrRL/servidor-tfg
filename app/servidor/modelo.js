@@ -33,13 +33,12 @@ function Sistema(test)
 
   this.usuarioGoogle = function(usr, callback)
   {
-    let copia=usr;
     let modelo = this;
-    let existe = false;
 
     this.cad.buscarUsuario({"email":usr.email}, function(usrAux) 
     {
-      if (!usrAux) {
+      if (!usrAux) 
+      {
         modelo.cad.insertarUsuario(usr, function(res) {
           jwt.sign(usr, "token", (err, token) => {
             if (token) {
@@ -60,8 +59,36 @@ function Sistema(test)
         } );
       }
     })
+  }
 
+  this.usuarioOpenAI = function(usr, callback)
+  {
+    let modelo = this;
 
+    this.cad.buscarUsuario({"email":usr.email}, function(usrAux) 
+    {
+      if (!usrAux) 
+      {
+        modelo.cad.insertarUsuario(usr, function(res) {
+          jwt.sign(usr, "token", (err, token) => {
+            if (token) {
+              usr.token = token;
+              modelo.agregarUsuario(usr, () => callback(usr)); 
+            }
+          });
+        });
+      }
+      else
+      {
+        jwt.sign(usr, "token", (err, token) => {
+          if (token)
+          {
+            usr.token = token;
+            modelo.agregarUsuario(usr, () => callback(usr)); 
+          }
+        } );
+      }
+    })
   }
 
   this.registrarUsuario = function(obj, callback)
@@ -192,15 +219,15 @@ function Sistema(test)
     })
   }
 
-  this.addMarcador = function(obj, email, callback)
+  this.addRecord = function(obj, email, callback)
   {
     let modelo = this;
     this.cad.buscarUsuario({"email":email}, function(usr)
     {
       if (usr) 
       {
-        usr.marcadores = usr.marcadores || [];
-        usr.marcadores.push(obj);
+        usr.record = usr.record || [];
+        usr.record.push(obj);
         modelo.cad.actualizarUsuario(usr, function()
         {
           callback();

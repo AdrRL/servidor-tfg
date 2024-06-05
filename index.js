@@ -86,6 +86,14 @@ app.post("/agregarGoogleUser", function(request, response)
     });
 });
 
+app.post("/agregarOpenAIUser", function(request, response)
+{
+    sistema.usuarioOpenAI(request.body,function(res)
+    {
+        response.json({"email": res.email, "token":res.token});
+    });
+});
+
 
 app.post("/loginUsuario",function(request,response)
 {
@@ -103,10 +111,10 @@ app.post("/loginUsuario",function(request,response)
     });
 });
 
-app.post("/agregarMarcador/:email", haIniciado, function(request,response)
+app.post("/addRecord/:email", haIniciado, function(request,response)
 {
     let email=request.params.email;
-    sistema.addMarcador(request.body, email, function()
+    sistema.addRecord(request.body, email, function()
     {
         response.json({"Correcto": true});
     });
