@@ -165,6 +165,20 @@ app.get("/obtenerUsuario/:email", haIniciado, function(request, response)
     })
 });  
 
+app.put("/actualizarUsuario/:email", haIniciado, function(request, response) 
+{
+    let email = request.params.email;
+    let userProfile = request.body;
+
+    sistema.actualizarUsuario(email, userProfile, function(res) 
+    {
+        if (res.email !== -1) 
+            response.json({"Correcto": true});
+        else 
+            response.status(400).json({"Correcto": false});
+    });
+});
+
 app.get("/confirmarUsuario/:email/:key", function(request, response)
 {
     let email = request.params.email;

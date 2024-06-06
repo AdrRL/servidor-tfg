@@ -279,6 +279,32 @@ function Sistema(test)
     return user;
   }
 
+  this.actualizarUsuario = function(email, obj, callback) 
+  {
+    let modelo = this;
+    this.cad.buscarUsuario({"email": email}, function(usr) 
+    {
+      if (usr) 
+      {
+        usr.email = obj.email;
+        usr.username = obj.username;
+        usr.firstName = obj.firstName;
+        usr.lastName = obj.lastName;
+        usr.record = obj.record;
+        usr.photo = obj.photo;
+
+        modelo.cad.actualizarUsuario(usr, function(res) 
+        {
+          callback(res);
+        });
+      } 
+      else 
+      {
+        callback({ "email": -1 });
+      }
+    });
+  };
+
   this.obtenerTodosNick = function()
   {
     return Object.keys(this.usuarios);
