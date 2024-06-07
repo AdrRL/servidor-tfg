@@ -18,9 +18,10 @@ let io = new Server();
 const PORT = process.env.PORT || 3000;
 
 const haIniciado = function(request, response, next) {
-
     let token = request.headers.authorization && request.headers.authorization.split(' ')[1];
-
+    if (request.method === 'OPTIONS') {
+        return next(); // Allow OPTIONS requests to pass through
+    }
     if (token) {
         jwt.verify(token, "token", (err, decoded) => {
             if (decoded) {
@@ -36,7 +37,7 @@ const haIniciado = function(request, response, next) {
 
 const corsOptions = {
     origin: 'http://localhost:4200',
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     allowedHeaders: 'Origin, X-Requested-With, Content-Type, Accept, Authorization',
     credentials: true,
     optionsSuccessStatus: 204
@@ -44,7 +45,7 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
-app.options('*', cors(corsOptions));
+app.options('*', cors(corsOptions)); // Pre-flight requests handling
 
 app.use(express.static(__dirname + "/"));
 app.use(cookieSession({
@@ -91,9 +92,9 @@ app.post("/agregarOpenAIUser", function(request, response) {
 
 app.post("/loginUsuario", function(request, response) {
     if (request.method === 'OPTIONS') {
-        return response.sendStatus(200);
+        return response.sendStatus(200); // Handle pre-flight request
     }
-    //response.set('Access-Control-Allow-Credentials', true);
+    // Proceed with actual login logic
     sistema.loginUsuarioEmail(request.body, function(res1) {
         if (res1.clave != -1) {
             response.json({ "clave": res1.email, "token": res1.token });
