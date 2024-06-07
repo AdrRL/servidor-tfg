@@ -18,6 +18,7 @@ let io = new Server();
 const PORT = process.env.PORT || 3000;
 
 const haIniciado = function(request, response, next) {
+
     let token = request.headers.authorization && request.headers.authorization.split(' ')[1];
 
     if (token) {
@@ -89,7 +90,10 @@ app.post("/agregarOpenAIUser", function(request, response) {
 });
 
 app.post("/loginUsuario", function(request, response) {
-    response.set('Access-Control-Allow-Credentials', true);
+    if (request.method === 'OPTIONS') {
+        return response.sendStatus(200);
+    }
+    //response.set('Access-Control-Allow-Credentials', true);
     sistema.loginUsuarioEmail(request.body, function(res1) {
         if (res1.clave != -1) {
             response.json({ "clave": res1.email, "token": res1.token });
