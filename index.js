@@ -36,12 +36,22 @@ const haIniciado = function(request,response,next)
     }
 }
 
+
 app.use(cors({
     origin: ['http://localhost:4200', 'https://AUNNADA.com'],
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     credentials:true,
     optionsSuccessStatus: 204,
 }))
+app.use((req, res, next) => {
+    res.set({
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "*",
+        "Access-Control-Allow-Headers": "'Access-Control-Allow-Headers: Origin, Content-Type, X-Auth-Token'",
+    });
+
+    next();
+});
 
 let test=false; 
 test=eval(args[0]); //test=true test=false
