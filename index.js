@@ -46,7 +46,7 @@ const corsOptions = {
 app.use(cors({
     origin: '*',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
-    withCredentials: true,
+    credentials: true,
     optionsSuccessStatus: 204
 }));
 // app.options('*', cors(corsOptions));
@@ -111,6 +111,7 @@ app.post("/agregarOpenAIUser", function(request, response)
 
 app.post("/loginUsuario",function(request,response)
 {
+    response.set('Access-Control-Allow-Credentials', 'true');
     sistema.loginUsuarioEmail(request.body, function(res1)
     {
         if (res1.clave != -1)
