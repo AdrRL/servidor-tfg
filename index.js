@@ -111,7 +111,7 @@ app.post("/agregarOpenAIUser", function(request, response)
 
 app.post("/loginUsuario",function(request,response)
 {
-    response.set('Access-Control-Allow-Credentials', 'true');
+    response.set('Access-Control-Allow-Credentials', true);
     sistema.loginUsuarioEmail(request.body, function(res1)
     {
         if (res1.clave != -1)
