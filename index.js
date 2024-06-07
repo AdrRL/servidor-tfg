@@ -40,12 +40,12 @@ const haIniciado = function(request,response,next)
 const corsOptions = {
     origin: 'http://localhost:4200',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+    allowedHeaders: 'Origin, X-Requested-With, Content-Type, Accept, Authorization',
     credentials: true,
     optionsSuccessStatus: 200
 };
 
 app.use(cors(corsOptions));
-app.options('*', cors(corsOptions));
 
 app.options('*', (req, res) => {
     res.header('Access-Control-Allow-Origin', 'http://localhost:4200');
