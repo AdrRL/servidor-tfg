@@ -38,17 +38,30 @@ const haIniciado = function(request,response,next)
 
 
 const corsOptions = {
-    origin: '*',
+    origin: 'http://localhost:4200',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     credentials: true,
-    optionsSuccessStatus: 204
-  };
-app.use(cors({
-    origin: '*',
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
-    credentials: true,
-    optionsSuccessStatus: 204
-}));
+    optionsSuccessStatus: 200
+};
+
+app.use(cors(corsOptions));
+app.options('*', cors(corsOptions));
+
+app.options('*', (req, res) => {
+    res.header('Access-Control-Allow-Origin', 'http://localhost:4200');
+    res.header('Access-Control-Allow-Methods', 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+    res.sendStatus(200);
+});
+
+
+// app.use(cors({
+//     origin: '*',
+//     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+//     credentials: true,
+//     optionsSuccessStatus: 204
+// }));
+
 // app.options('*', cors(corsOptions));
 // app.use((req, res, next) => {
 //     res.header("Access-Control-Allow-Origin", "http://localhost:4200");
