@@ -37,12 +37,15 @@ const haIniciado = function(request,response,next)
 }
 
 
-app.use(cors({
-    origin: ['http://localhost:4200', 'https://AUNNADA.com'],
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
-    credentials:true,
-    optionsSuccessStatus: 204,
-}))
+const corsOptions = {
+    origin: '*',
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true,
+    optionsSuccessStatus: 204
+  };
+app.use(cors(corsOptions));
+app.options('*', cors(corsOptions));
+
 
 let test=false; 
 test=eval(args[0]); //test=true test=false
