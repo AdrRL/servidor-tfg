@@ -43,8 +43,12 @@ const corsOptions = {
     credentials: true,
     optionsSuccessStatus: 204
   };
-app.use(cors(corsOptions));
-app.options('*', cors(corsOptions));
+app.use(cors({
+    origin: '*',
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+    credentials: true,
+    optionsSuccessStatus: 204}));
+// app.options('*', cors(corsOptions));
 app.use((req, res, next) => {
     res.header("Access-Control-Allow-Origin", "http://localhost:4200");
     res.header("Access-Control-Allow-Credentials", "true");
