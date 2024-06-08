@@ -40,18 +40,19 @@ const corsOptions = {
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     allowedHeaders: 'Origin, X-Requested-With, Content-Type, Accept, Authorization',
     credentials: true,
+    preflightContinue: false,
     optionsSuccessStatus: 204
 };
 
 app.use(cors(corsOptions));
 
-app.all('/*', function(req, res, next) {
- res.setHeader("Access-Control-Allow-Origin", "*");
- res.setHeader("Access-Control-Allow-Credentials", "false");
- res.setHeader("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
- res.setHeader("Access-Control-Allow-Headers", "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers");
+app.options('/*', function(req, res, next) {
+//  res.setHeader("Access-Control-Allow-Origin", "*");
+//  res.setHeader("Access-Control-Allow-Credentials", "false");
+//  res.setHeader("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
+//  res.setHeader("Access-Control-Allow-Headers", "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers");
 
- res.status(200);
+ res.sendStatus(200);
  console.log(res);
 
  next();
