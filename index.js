@@ -45,6 +45,16 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
+app.options('/*', function(req, res, next) {
+ res.setHeader("Access-Control-Allow-Origin", "*");
+ res.setHeader("Access-Control-Allow-Credentials", "false");
+ res.setHeader("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
+ res.setHeader("Access-Control-Allow-Headers", "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers");
+ 
+ res.status(200);
+ next();
+});
+
 app.use(express.static(__dirname + "/"));
 app.use(cookieSession({
     name: 'TFG',
@@ -90,9 +100,9 @@ app.post("/agregarOpenAIUser", function(request, response) {
 
 app.post("/loginUsuario", function(request, response) {
     if (request.method === 'OPTIONS') {
-        return response.sendStatus(200); // Handle pre-flight request
+        return response.sendStatus(200);
     }
-    // Proceed with actual login logic
+
     sistema.loginUsuarioEmail(request.body, function(res1) {
         if (res1.clave != -1) {
             response.json({ "clave": res1.email, "token": res1.token });
