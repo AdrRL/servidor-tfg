@@ -1,5 +1,5 @@
 const datos = require("./cad.js");
-const correo = require("./email.js");
+// const correo = require("./email.js");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const fs = require('fs');

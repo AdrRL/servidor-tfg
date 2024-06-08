@@ -1,6 +1,6 @@
 
 const nodemailer = require('nodemailer');
-const gv = require('./gestorVariables.js')
+// const gv = require('./gestorVariables.js')
 
 //const url="https://hall-server-n37fnw7ulq-lm.a.run.app/";
 const url="https://servidor-tfg.onrender.com/";
