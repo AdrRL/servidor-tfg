@@ -45,8 +45,6 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
-app.options('*', cors(corsOptions)); // Pre-flight requests handling
-
 app.use(express.static(__dirname + "/"));
 app.use(cookieSession({
     name: 'TFG',
