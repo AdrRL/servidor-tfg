@@ -1,8 +1,8 @@
 require('dotenv').config();
 const nodemailer = require('nodemailer');
 
-//const url="https://servidor-tfg.onrender.com/";
-const url = 'http://localhost:3000/';
+const url="https://servidor-tfg.onrender.com/";
+//const url = 'http://localhost:3000/';
 
 
 let options = {
