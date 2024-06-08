@@ -36,7 +36,7 @@ const haIniciado = function(request, response, next) {
 }
 
 const corsOptions = {
-    origin: 'http://localhost:4200',
+    origin: ['http://localhost:4200', 'https://servidortfg.azurewebsites.net', 'https://servidor-tfg.onrender.com'],
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     allowedHeaders: 'Origin, X-Requested-With, Content-Type, Accept, Authorization',
     credentials: true,
@@ -46,7 +46,7 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
-app.options('/*', cors(), function(req, res, next) {
+app.options('/*', cors(corsOptions), function(req, res, next) {
 //  res.setHeader("Access-Control-Allow-Origin", "*");
 //  res.setHeader("Access-Control-Allow-Credentials", "false");
 //  res.setHeader("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
@@ -108,11 +108,11 @@ app.post("/loginUsuario", function(request, response) {
     sistema.loginUsuarioEmail(request.body, function(res1) {
         if (res1.clave != -1) {
             response.json({ "clave": res1.email, "token": res1.token });
-            response.sendStatus(200);
+            // response.sendStatus(200);
         } else {
             sistema.loginUsuarioUsername(request.body, function(res2) {
                 response.json({ "clave": res2.email, "token": res2.token });
-                response.sendStatus(200);
+                // response.sendStatus(200);
             });
         }
     });

@@ -3,7 +3,9 @@ const nodemailer = require('nodemailer');
 const gv = require('./gestorVariables.js')
 
 //const url="https://hall-server-n37fnw7ulq-lm.a.run.app/";
-const url="http://localhost:3000/";
+//const url="https://servidor-tfg.onrender.com/";
+const url = 'http://localhost:3000';
+
 
 let transporter;
 let options = {
