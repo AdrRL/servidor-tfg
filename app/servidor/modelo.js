@@ -121,8 +121,8 @@ function Sistema(test)
                 modelo.cad.insertarUsuario(obj, function(res) {
                   callback(res);
                 });
-                if (!modelo.test)
-                  correo.enviarEmail(obj.email, obj.key, "Confirmar cuenta");
+                // if (!modelo.test)
+                //   correo.enviarEmail(obj.email, obj.key, "Confirmar cuenta");
               }
             });
           }
@@ -337,10 +337,10 @@ function Sistema(test)
     })
   }
 
-  correo.conectar(function(res) 
-  {
-    console.log("Variables secretas obtenidas")
-  });
+  // correo.conectar(function(res) 
+  // {
+  //   console.log("Variables secretas obtenidas")
+  // });
 
 }
 
