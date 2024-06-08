@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const fs = require("fs");
 const express = require('express');
 const app = express();
@@ -17,20 +19,28 @@ let io = new Server();
 
 const PORT = process.env.PORT || 3000;
 
-const haIniciado = function(request, response, next) {
+const haIniciado = function(request, response, next) 
+{
     let token = request.headers.authorization && request.headers.authorization.split(' ')[1];
-    if (request.method === 'OPTIONS') {
-        return next(); // Allow OPTIONS requests to pass through
+    if (request.method === 'OPTIONS') 
+    {
+        return next();
     }
-    if (token) {
+    if (token) 
+    {
         jwt.verify(token, "token", (err, decoded) => {
-            if (decoded) {
+            if (decoded) 
+            {
                 next();
-            } else {
+            } 
+            else 
+            {
                 response.redirect("/")
             }
         });
-    } else {
+    } 
+    else 
+    {
         response.redirect("/")
     }
 }
@@ -46,15 +56,11 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
-app.options('/*', cors(corsOptions), function(req, res, next) {
-//  res.setHeader("Access-Control-Allow-Origin", "*");
-//  res.setHeader("Access-Control-Allow-Credentials", "false");
-//  res.setHeader("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
-//  res.setHeader("Access-Control-Allow-Headers", "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers");
- res.sendStatus(200);
- console.log(res);
-
- next();
+app.options('/*', cors(corsOptions), function(req, res, next) 
+{
+    res.sendStatus(200);
+    console.log(res);
+    next();
 });
 
 app.use(express.static(__dirname + "/"));
@@ -70,98 +76,125 @@ test = eval(args[0]); // test=true test=false
 
 let sistema = new modelo.Sistema(test);
 
-app.get("/good", function(request, response) {
+app.get("/good", function(request, response) 
+{
     let email = request.user.emails[0].value;
-    sistema.usuarioGoogle({ "email": email }, function(usr) {
+    sistema.usuarioGoogle({ "email": email }, function(usr) 
+    {
         response.cookie('email', usr.email);
         response.redirect('/');
     });
 });
 
-app.get("/fallo", function(request, response) {
+app.get("/fallo", function(request, response) 
+{
     response.send({ email: "nook" })
 });
 
-app.post("/registrarUsuario", function(request, response) {
-    sistema.registrarUsuario(request.body, function(res) {
+app.post("/registrarUsuario", function(request, response) 
+{
+    sistema.registrarUsuario(request.body, function(res) 
+    {
         response.json({ "email": res.email });
     });
 });
 
-app.post("/agregarGoogleUser", function(request, response) {
-    sistema.usuarioGoogle(request.body, function(res) {
+app.post("/agregarGoogleUser", function(request, response) 
+{
+    sistema.usuarioGoogle(request.body, function(res) 
+    {
         response.json({ "email": res.email, "token": res.token });
     });
 });
 
-app.post("/agregarOpenAIUser", function(request, response) {
-    sistema.usuarioOpenAI(request.body, function(res) {
+app.post("/agregarOpenAIUser", function(request, response) 
+{
+    sistema.usuarioOpenAI(request.body, function(res) 
+    {
         response.json({ "email": res.email, "token": res.token });
     });
 });
 
-app.post("/loginUsuario", function(request, response) {
-    if (request.method === 'OPTIONS') {
+app.post("/loginUsuario", function(request, response) 
+{
+    if (request.method === 'OPTIONS') 
+    {
         return response.sendStatus(200);
     }
 
-    sistema.loginUsuarioEmail(request.body, function(res1) {
-        if (res1.clave != -1) {
+    sistema.loginUsuarioEmail(request.body, function(res1) 
+    {
+        if (res1.clave != -1) 
+        {
             response.json({ "clave": res1.email, "token": res1.token });
-            // response.sendStatus(200);
-        } else {
+        } 
+        else 
+        {
             sistema.loginUsuarioUsername(request.body, function(res2) {
                 response.json({ "clave": res2.email, "token": res2.token });
-                // response.sendStatus(200);
             });
         }
     });
 });
 
-app.post("/addRecord/:email", haIniciado, function(request, response) {
+app.post("/addRecord/:email", haIniciado, function(request, response) 
+{
     let email = request.params.email;
-    sistema.addRecord(request.body, email, function() {
+    sistema.addRecord(request.body, email, function() 
+    {
         response.json({ "Correcto": true });
     });
 });
 
-app.get("/", function(request, response) { });
+app.get("/", function(request, response) 
+{ 
+});
 
-app.get("/cierre", function(request, response) {
+app.get("/cierre", function(request, response)
+{
     var contenido = fs.readFileSync(__dirname + "/app/servidor/cierre.html");
     response.setHeader("Content-type", "text/html");
     response.send(contenido);
 });
 
-app.get("/eliminarUsuario/:email", haIniciado, function(request, response) {
+app.get("/eliminarUsuario/:email", haIniciado, function(request, response) 
+{
     let email = request.params.email;
     let res = sistema.eliminarUsuario(email);
     response.send(res);
 });
 
-app.get("/comprobarUsuario/:email", haIniciado, function(request, response) {
+app.get("/comprobarUsuario/:email", haIniciado, function(request, response) 
+{
     let email = request.params.email;
 
-    if (sistema.usuarios[email]) {
+    if (sistema.usuarios[email]) 
+        {
         response.send({ "email": email });
-    } else {
+    } 
+    else 
+    {
         response.send({ "email": -1 });
     }
 });
 
-app.get("/obtenerUsuario/:email", haIniciado, function(request, response) {
+app.get("/obtenerUsuario/:email", haIniciado, function(request, response) 
+{
     let email = request.params.email;
     console.log(email);
-    sistema.obtenerUsuario({ "email": email }, function(lista) {
+    sistema.obtenerUsuario({ "email": email }, function(lista) 
+    {
         response.send(lista);
     })
 });
 
-app.put("/actualizarUsuario/:email", haIniciado, function(request, response) {
+app.put("/actualizarUsuario/:email", haIniciado, function(request, response) 
+{
     let email = request.params.email;
     let userProfile = request.body;
 
-    sistema.actualizarUsuario(email, userProfile, function(res) {
+    sistema.actualizarUsuario(email, userProfile, function(res) 
+    {
         if (res.email !== -1)
             response.json({ "Correcto": true });
         else
@@ -169,30 +202,36 @@ app.put("/actualizarUsuario/:email", haIniciado, function(request, response) {
     });
 });
 
-app.get("/confirmarUsuario/:email/:key", function(request, response) {
+app.get("/confirmarUsuario/:email/:key", function(request, response) 
+{
     let email = request.params.email;
     let key = request.params.key;
     console.log({ "email": email, "key": key })
-    sistema.confirmarUsuario({ "email": email, "key": key }, function(usr) {
+    sistema.confirmarUsuario({ "email": email, "key": key }, function(usr) 
+    {
         if (usr.email != -1)
             response.cookie('email', usr.email);
         response.redirect('/cierre');
     })
 })
 
-app.post('/enviarJwt', function(request, response) {
+app.post('/enviarJwt', function(request, response) 
+{
     let jwt = request.body.jwt;
     let user = JSON.parse(atob(jwt.split(".")[1]));
     let email = user.email;
-    sistema.usuarioGoogle({ "email": email }, function(obj) {
+    sistema.usuarioGoogle({ "email": email }, function(obj) 
+    {
         response.send({ 'email': obj.email });
     })
 });
 
-app.get("/cerrarSesion/:email", haIniciado, function(request, response) {
+app.get("/cerrarSesion/:email", haIniciado, function(request, response) 
+{
     let email = request.params.email;
     console.log(email)
-    if (email) {
+    if (email) 
+    {
         sistema.eliminarUsuario(email);
     }
 });

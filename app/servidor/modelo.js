@@ -1,5 +1,5 @@
 const datos = require("./cad.js");
-// const correo = require("./email.js");
+const correo = require("./email.js");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const fs = require('fs');
@@ -118,11 +118,12 @@ function Sistema(test)
                 obj.key = Date.now().toString();
                 obj.confirmada = false;
 
-                modelo.cad.insertarUsuario(obj, function(res) {
+                modelo.cad.insertarUsuario(obj, function(res) 
+                {
                   callback(res);
                 });
-                // if (!modelo.test)
-                //   correo.enviarEmail(obj.email, obj.key, "Confirmar cuenta");
+                if (!modelo.test)
+                   correo.enviarEmail(obj.email, obj.key, "Confirmar cuenta");
               }
             });
           }
@@ -336,11 +337,6 @@ function Sistema(test)
       console.log('Conectado correctamente a Mongo Atlas');
     })
   }
-
-  // correo.conectar(function(res) 
-  // {
-  //   console.log("Variables secretas obtenidas")
-  // });
 
 }
 

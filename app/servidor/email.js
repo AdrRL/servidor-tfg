@@ -1,34 +1,14 @@
-
+require('dotenv').config();
 const nodemailer = require('nodemailer');
-// const gv = require('./gestorVariables.js')
 
-//const url="https://hall-server-n37fnw7ulq-lm.a.run.app/";
-const url="https://servidor-tfg.onrender.com/";
-//const url = 'http://localhost:3000';
+//const url="https://servidor-tfg.onrender.com/";
+const url = 'http://localhost:3000/';
 
 
-let transporter;
 let options = {
-    user: '',
-    pass: ''
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS
 }
-
-gv.obtenerOptions(function(res)
-{
-    options = res;
-    transporter = nodemailer.createTransport({
-        service: 'gmail',
-        auth: options
-    });
-})
-
-module.exports.conectar=function(callback)
-{
-    gv.obtenerOptions(function(res){
-        options=res;
-        callback(res);
-    })
-} 
 
 module.exports.enviarEmail = async function(direccion, key, men) 
 {
@@ -55,7 +35,7 @@ module.exports.enviarEmail = async function(direccion, key, men)
     `
 
     const result = await transporter.sendMail({
-        from: 'tic.ramonycajal.adrian@gmail.com',
+        from: process.env.EMAIL_USER,
         to: direccion,
         subject: men,
         text: 'Pulsa aquí para confirmar cuenta',
