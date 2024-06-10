@@ -124,6 +124,7 @@ app.post("/loginUsuario", function(request, response)
 
     sistema.loginUsuarioEmail(request.body, function(res1) 
     {
+        console.log(res1);
         if (res1.clave != -1) 
         {
             response.json({ "clave": res1.email, "token": res1.token });
@@ -131,6 +132,7 @@ app.post("/loginUsuario", function(request, response)
         else 
         {
             sistema.loginUsuarioUsername(request.body, function(res2) {
+                console.log(res2);
                 response.json({ "clave": res2.email, "token": res2.token });
             });
         }
@@ -167,7 +169,6 @@ app.get("/eliminarUsuario/:email", haIniciado, function(request, response)
 app.get("/comprobarUsuario/:email", haIniciado, function(request, response) 
 {
     let email = request.params.email;
-
     if (sistema.usuarios[email]) 
         {
         response.send({ "email": email });

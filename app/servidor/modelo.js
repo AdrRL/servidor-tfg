@@ -142,7 +142,6 @@ function Sistema(test)
   this.loginUsuarioEmail = function(obj, callback)
   {
     let modelo = this;
-    console.log(obj)
 
     this.cad.buscarUsuario({"email":obj.email, "confirmada":true}, function(usr)
     {
