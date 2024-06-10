@@ -46,17 +46,7 @@ const haIniciado = function(request, response, next)
 }
 
 const corsOptions = {
-    origin: function (origin, callback) {
-        const allowedOrigins = ['http://localhost:4200', 'https://servidor-tfg.onrender.com', 'https://angular-tfg.onrender.com'];
-        if (allowedOrigins.includes(origin)) 
-        {
-            callback(null, true);
-        } 
-        else 
-        {
-            callback(new Error('Not allowed by CORS'));
-        }
-    },    
+    origin: ['http://localhost:4200', 'https://servidor-tfg.onrender.com', 'https://angular-tfg.onrender.com'],
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     allowedHeaders: 'Origin, X-Requested-With, Content-Type, Accept, Authorization',
     credentials: true,
