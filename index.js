@@ -124,7 +124,6 @@ app.post("/loginUsuario", function(request, response)
 
     sistema.loginUsuarioEmail(request.body, function(res1) 
     {
-        console.log(res1);
         if (res1.clave != -1) 
         {
             response.json({ "clave": res1.email, "token": res1.token });
@@ -132,7 +131,6 @@ app.post("/loginUsuario", function(request, response)
         else 
         {
             sistema.loginUsuarioUsername(request.body, function(res2) {
-                console.log(res2);
                 response.json({ "clave": res2.email, "token": res2.token });
             });
         }
@@ -182,7 +180,7 @@ app.get("/comprobarUsuario/:email", haIniciado, function(request, response)
 app.get("/obtenerUsuario/:email", haIniciado, function(request, response) 
 {
     let email = request.params.email;
-    console.log(email);
+    console.log('Obteniendo usuario: ' + email);
     sistema.obtenerUsuario({ "email": email }, function(lista) 
     {
         response.send(lista);
@@ -207,7 +205,6 @@ app.get("/confirmarUsuario/:email/:key", function(request, response)
 {
     let email = request.params.email;
     let key = request.params.key;
-    console.log({ "email": email, "key": key })
     sistema.confirmarUsuario({ "email": email, "key": key }, function(usr) 
     {
         if (usr.email != -1)
@@ -230,7 +227,6 @@ app.post('/enviarJwt', function(request, response)
 app.get("/cerrarSesion/:email", haIniciado, function(request, response) 
 {
     let email = request.params.email;
-    console.log(email)
     if (email) 
     {
         sistema.eliminarUsuario(email);

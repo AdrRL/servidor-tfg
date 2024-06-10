@@ -13,18 +13,18 @@ function Sistema(test)
   
   this.agregarUsuario = function(user, callback)
   {
-    console.log("Agregando usuario");
+    console.log("Agregando usuario...");
     let res={"email":-1};
 
     if (!this.usuarios[user.email])
     {
       this.usuarios[user.email]=new Usuario(user.email);
       res.email=user.email;
-      console.log("Nuevo usuario con email:" + user.email);
+      console.log("Nuevo usuario con email: " + user.email);
     }
     else 
     {
-      console.log("el email "+user.email+" está en uso"); 
+      console.log("El email "+user.email+" está en uso"); 
     }
 
     callback();
@@ -39,6 +39,7 @@ function Sistema(test)
     {
       if (!usrAux) 
       {
+        console.log('Nuevo usuario de Google');
         modelo.cad.insertarUsuario(usr, function(res) {
           jwt.sign(usr, "token", (err, token) => {
             if (token) {
@@ -50,6 +51,7 @@ function Sistema(test)
       }
       else
       {
+        console.log('Conectar de nuevo con Google');
         jwt.sign(usr, "token", (err, token) => {
           if (token)
           {
@@ -69,6 +71,7 @@ function Sistema(test)
     {
       if (!usrAux) 
       {
+        console.log('Nuevo usuario de GitHub');
         modelo.cad.insertarUsuario(usr, function(res) {
           jwt.sign(usr, "token", (err, token) => {
             if (token) {
@@ -80,6 +83,7 @@ function Sistema(test)
       }
       else
       {
+        console.log('Conectar de nuevo con GitHub');
         jwt.sign(usr, "token", (err, token) => {
           if (token)
           {
@@ -94,6 +98,7 @@ function Sistema(test)
   this.registrarUsuario = function(obj, callback)
   {
     let modelo=this;
+    console.log('Insertando usuario');
     
     this.cad.buscarUsuario({"email":obj.email}, function(usr) {
       if (!usr) 
@@ -117,6 +122,7 @@ function Sistema(test)
                 obj.password = hash;
                 obj.key = Date.now().toString();
                 obj.confirmada = false;
+                console.log('Creando usuario con email: ' + obj.email);
 
                 modelo.cad.insertarUsuario(obj, function(res) 
                 {
@@ -182,7 +188,6 @@ function Sistema(test)
   this.loginUsuarioUsername = function(obj, callback)
   {
     let modelo = this;
-    console.log(obj)
     this.cad.buscarUsuario({"username":obj.email, "confirmada":true}, function(usr)
     {
       if (usr) 
@@ -222,6 +227,7 @@ function Sistema(test)
   this.addRecord = function(obj, email, callback)
   {
     let modelo = this;
+    console.log('Añadiendo registro al historial de ' + email);
     this.cad.buscarUsuario({"email":email}, function(usr)
     {
       if (usr) 
@@ -281,6 +287,7 @@ function Sistema(test)
 
   this.actualizarUsuario = function(email, obj, callback) 
   {
+    console.log('Actualizando Usuario');
     let modelo = this;
     this.cad.buscarUsuario({"email": email}, function(usr) 
     {
@@ -292,6 +299,7 @@ function Sistema(test)
         usr.lastName = obj.lastName;
         usr.record = obj.record;
         usr.photo = obj.photo;
+        console.log('Usuario con email: ' + usr.email + ' actualizado');
 
         modelo.cad.actualizarUsuario(usr, function(res) 
         {
@@ -318,7 +326,7 @@ function Sistema(test)
     {
       res.nick=email;
       delete this.usuarios[email]
-      console.log("Usuario con email: " + email + " borrado")
+      console.log("Usuario con email: " + email + " ha cerrado sesión")
     }
     else 
     {
@@ -339,9 +347,8 @@ function Sistema(test)
 
 }
 
-function Usuario(email, clave)  //usr y luego usr.email usr.nick etc
+function Usuario(email, clave)
 {
-  //this.nick=nick;
   this.email=email;
   this.clave=clave
 }
