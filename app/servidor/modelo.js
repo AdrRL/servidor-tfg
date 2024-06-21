@@ -103,15 +103,15 @@ function Sistema(test)
     this.cad.buscarUsuario({"email":obj.email}, function(usr) {
       if (!usr) 
       {
-        bcrypt.genSalt(10, (err, salt) => {
-          if (err) 
+        modelo.cad.buscarUsuario({ "username": obj.username }, function(usrByUsername) 
+        {
+          if (usrByUsername) 
           {
-            console.log(err);
-            callback(err);
+            callback({ "email": -3 });
           } 
           else 
           {
-            bcrypt.hash(obj.password, salt, function(err, hash) {
+            bcrypt.genSalt(10, (err, salt) => {
               if (err) 
               {
                 console.log(err);
@@ -119,21 +119,31 @@ function Sistema(test)
               } 
               else 
               {
-                obj.password = hash;
-                obj.key = Date.now().toString();
-                obj.confirmada = false;
-                console.log('Creando usuario con email: ' + obj.email);
-
-                modelo.cad.insertarUsuario(obj, function(res) 
-                {
-                  callback(res);
+                bcrypt.hash(obj.password, salt, function(err, hash) {
+                  if (err) 
+                  {
+                    console.log(err);
+                    callback(err);
+                  } 
+                  else 
+                  {
+                    obj.password = hash;
+                    obj.key = Date.now().toString();
+                    obj.confirmada = false;
+                    console.log('Creando usuario con email: ' + obj.email);
+    
+                    modelo.cad.insertarUsuario(obj, function(res) 
+                    {
+                      callback(res);
+                    });
+                    if (!modelo.test)
+                       correo.enviarEmail(obj.email, obj.key, "Confirmar cuenta");
+                  }
                 });
-                if (!modelo.test)
-                   correo.enviarEmail(obj.email, obj.key, "Confirmar cuenta");
               }
             });
           }
-        });
+        });   
       }
       else 
       {
