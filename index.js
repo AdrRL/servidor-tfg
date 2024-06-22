@@ -222,6 +222,11 @@ app.get("/cerrarSesion/:email", haIniciado, function(request, response)
     if (email) 
     {
         sistema.eliminarUsuario(email);
+        response.send({ "message": "Sesión cerrada correctamente" });
+    } 
+    else 
+    {
+        response.send({ "message": "Email no proporcionado" });
     }
 });
 
