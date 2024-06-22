@@ -218,6 +218,10 @@ app.post('/enviarJwt', function(request, response)
 
 app.get("/cerrarSesion/:email", haIniciado, function(request, response) 
 {
+    if (!request.params)
+    {
+        response.status(400).send({ "message": "Email no proporcionado" });
+    }
     let email = request.params.email;
     if (email) 
     {
