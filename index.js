@@ -223,14 +223,17 @@ app.get("/cerrarSesion/:email", haIniciado, function(request, response)
     {
         response.status(400).send({ "message": "Email no proporcionado" });
     } 
-    if (email) 
-    {
-        sistema.eliminarUsuario(email);
-        response.send({ "message": "Sesión cerrada correctamente" });
-    } 
     else 
     {
-        response.send({ "message": "Email no proporcionado" });
+        let resultado = sistema.eliminarUsuario(email);
+        if (resultado.email !== -1) 
+        {
+            response.send({ "message": "Sesión cerrada correctamente" });
+        } 
+        else 
+        {
+            response.status(404).send({ "message": "Usuario no encontrado" });
+        }
     }
 });
 
