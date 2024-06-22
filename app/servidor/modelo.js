@@ -63,38 +63,6 @@ function Sistema(test)
     })
   }
 
-  this.usuarioOpenAI = function(usr, callback)
-  {
-    let modelo = this;
-
-    this.cad.buscarUsuario({"email":usr.email}, function(usrAux) 
-    {
-      if (!usrAux) 
-      {
-        console.log('Nuevo usuario de GitHub');
-        modelo.cad.insertarUsuario(usr, function(res) {
-          jwt.sign(usr, "token", (err, token) => {
-            if (token) {
-              usr.token = token;
-              modelo.agregarUsuario(usr, () => callback(usr)); 
-            }
-          });
-        });
-      }
-      else
-      {
-        console.log('Conectar de nuevo con GitHub');
-        jwt.sign(usr, "token", (err, token) => {
-          if (token)
-          {
-            usr.token = token;
-            modelo.agregarUsuario(usr, () => callback(usr)); 
-          }
-        } );
-      }
-    })
-  }
-
   this.registrarUsuario = function(obj, callback)
   {
     let modelo=this;

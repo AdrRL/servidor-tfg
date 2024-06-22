@@ -107,14 +107,6 @@ app.post("/agregarGoogleUser", function(request, response)
     });
 });
 
-app.post("/agregarOpenAIUser", function(request, response) 
-{
-    sistema.usuarioOpenAI(request.body, function(res) 
-    {
-        response.json({ "email": res.email, "token": res.token });
-    });
-});
-
 app.post("/loginUsuario", function(request, response) 
 {
     if (request.method === 'OPTIONS') 
