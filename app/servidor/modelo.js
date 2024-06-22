@@ -302,7 +302,7 @@ function Sistema(test)
 
     if (this.usuarios[email])
     {
-      res.nick=email;
+      res.email=email;
       delete this.usuarios[email]
       console.log("Usuario con email: " + email + " ha cerrado sesión")
     }

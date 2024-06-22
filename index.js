@@ -226,6 +226,7 @@ app.get("/cerrarSesion/:email", haIniciado, function(request, response)
     else 
     {
         let resultado = sistema.eliminarUsuario(email);
+        console.log(resultado)
         if (resultado.email !== -1) 
         {
             response.send({ "message": "Sesión cerrada correctamente" });
