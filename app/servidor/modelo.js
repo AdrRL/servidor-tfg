@@ -308,6 +308,7 @@ function Sistema(test)
     }
     else 
     {
+      callback({ "message": "El usuario no existe" });
       console.log("El usuario no existe");
     }
 
