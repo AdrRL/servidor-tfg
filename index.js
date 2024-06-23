@@ -100,7 +100,23 @@ app.post("/registrarUsuario", function(request, response)
 
     sistema.registrarUsuario(request.body, function(res) 
     {
-        response.json({ "email": res.email });
+        if (res.email == -1)
+        {
+            response.status(400).send({ "email": res.email, "message": "El email proporcionado ya tiene una cuenta" });
+        }
+        else if (res.email == -2)
+        {
+            response.status(400).send({ "email": res.email, "message": "El email se encuentra a espera de confirmación" });
+        }
+        else if (res.email == -3)
+        {
+            response.status(400).send({ "email": res.email, "message": "Nombre de usuario ya en uso" });
+        }
+        else 
+        {
+            response.json({ "email": res.email });
+
+        }
     });
 });
 
