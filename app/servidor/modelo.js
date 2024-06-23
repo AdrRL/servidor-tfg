@@ -214,7 +214,7 @@ function Sistema(test)
         usr.record.push(obj);
         modelo.cad.actualizarUsuario(usr, function()
         {
-          callback();
+          callback({ "Correcto": true });
         })
       } 
       else 

@@ -93,6 +93,11 @@ app.get("/fallo", function(request, response)
 
 app.post("/registrarUsuario", function(request, response) 
 {
+    if (Object.keys(request.body).length === 0) 
+    {
+        return response.status(400).send({ "message": "Datos del registro no proporcionados" });
+    }
+
     sistema.registrarUsuario(request.body, function(res) 
     {
         response.json({ "email": res.email });
@@ -101,6 +106,11 @@ app.post("/registrarUsuario", function(request, response)
 
 app.post("/agregarGoogleUser", function(request, response) 
 {
+    if (Object.keys(request.body).length === 0) 
+    {
+        return response.status(400).send({ "message": "Datos del login no proporcionados" });
+    }
+
     sistema.usuarioGoogle(request.body, function(res) 
     {
         response.json({ "email": res.email, "token": res.token });
@@ -109,6 +119,11 @@ app.post("/agregarGoogleUser", function(request, response)
 
 app.post("/loginUsuario", function(request, response) 
 {
+    if (Object.keys(request.body).length === 0) 
+    {
+        return response.status(400).send({ "message": "Datos del login no proporcionados" });
+    }
+
     if (request.method === 'OPTIONS') 
     {
         return response.sendStatus(200);
@@ -122,8 +137,12 @@ app.post("/loginUsuario", function(request, response)
         } 
         else 
         {
-            sistema.loginUsuarioUsername(request.body, function(res2) {
-                response.json({ "clave": res2.email, "token": res2.token });
+            sistema.loginUsuarioUsername(request.body, function(res2) 
+            {
+                if (res2.clave != -1) 
+                    response.json({ "clave": res2.email, "token": res2.token });
+                else
+                    return response.status(404).send({ "message": "Datos no coincidentes" });
             });
         }
     });
@@ -132,9 +151,26 @@ app.post("/loginUsuario", function(request, response)
 app.post("/addRecord/:email", haIniciado, function(request, response) 
 {
     let email = request.params.email;
-    sistema.addRecord(request.body, email, function() 
+    
+    if (Object.keys(request.body).length === 0) 
     {
-        response.json({ "Correcto": true });
+        return response.status(400).send({ "message": "Datos del registro no proporcionados" });
+    }
+    if (!sistema.usuarios[email]) 
+    {
+        return response.status(404).send({ "message": "Usuario no encontrado" });
+    }
+
+    sistema.addRecord(request.body, email, function(result) 
+    {
+        if (result.Correcto) 
+        {
+            response.json({ "Correcto": true });
+        } 
+        else 
+        {
+            response.status(500).send({ "message": "Error al agregar el registro" });
+        }
     });
 });
 
