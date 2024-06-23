@@ -35,13 +35,13 @@ const haIniciado = function(request, response, next)
             } 
             else 
             {
-                response.status(401).redirect("/")
+                response.status(401).send({ "message": "No autorizado" });
             }
         });
     } 
     else 
     {
-        response.status(401).redirect("/")
+        response.status(401).send({ "message": "No autorizado" });
     }
 }
 
