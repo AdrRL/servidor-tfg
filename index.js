@@ -35,13 +35,13 @@ const haIniciado = function(request, response, next)
             } 
             else 
             {
-                response.redirect("/")
+                response.status(401).redirect("/")
             }
         });
     } 
     else 
     {
-        response.redirect("/")
+        response.status(401).redirect("/")
     }
 }
 
