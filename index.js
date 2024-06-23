@@ -201,23 +201,16 @@ app.get("/cierre", function(request, response)
     response.send(contenido);
 });
 
-app.get("/eliminarUsuario/:email", haIniciado, function(request, response) 
-{
-    let email = request.params.email;
-    let res = sistema.eliminarUsuario(email);
-    response.send(res);
-});
-
 app.get("/comprobarUsuario/:email", haIniciado, function(request, response) 
 {
     let email = request.params.email;
     if (sistema.usuarios[email]) 
-        {
+    {
         response.send({ "email": email });
     } 
     else 
     {
-        response.send({ "email": -1 });
+        response.status(400).send({ "email": -1, "message": "Usuario no se encuentra" });
     }
 });
 
