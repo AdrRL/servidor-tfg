@@ -217,24 +217,45 @@ app.get("/comprobarUsuario/:email", haIniciado, function(request, response)
 app.get("/obtenerUsuario/:email", haIniciado, function(request, response) 
 {
     let email = request.params.email;
+
+    if (!email || email.trim() === "") 
+    {
+        response.status(400).send({ "message": "Datos no proporcionados" });
+    }
+        
     console.log('Obteniendo usuario: ' + email);
     sistema.obtenerUsuario({ "email": email }, function(lista) 
     {
-        response.send(lista);
+        if (lista.usr == -1)
+        {
+            response.status(404).send({ "message": "Usuario no encontrado" });
+        }
+        else
+            response.send(lista);
     })
 });
 
 app.put("/actualizarUsuario/:email", haIniciado, function(request, response) 
 {
+    if (Object.keys(request.body).length === 0) 
+    {
+        return response.status(400).send({ "message": "Datos de la actualización no proporcionados" });
+    }
+
     let email = request.params.email;
     let userProfile = request.body;
+
+    if (!email || email.trim() === "") 
+    {
+        response.status(400).send({ "message": "Email no proporcionado" });
+    } 
 
     sistema.actualizarUsuario(email, userProfile, function(res) 
     {
         if (res.email !== -1)
             response.json({ "Correcto": true });
         else
-            response.status(400).json({ "Correcto": false });
+            response.status(400).json({ "message": "Usuario no encontrado" });
     });
 });
 
@@ -242,11 +263,20 @@ app.get("/confirmarUsuario/:email/:key", function(request, response)
 {
     let email = request.params.email;
     let key = request.params.key;
+
+    if (!email || email.trim() === "" || !key || key.trim() === "") 
+    {
+        response.status(400).send({ "message": "Datos no proporcionados" });
+    }
+    
     sistema.confirmarUsuario({ "email": email, "key": key }, function(usr) 
     {
-        if (usr.email != -1)
-            response.cookie('email', usr.email);
-        response.redirect('/cierre');
+        if (usr.email == -1)
+        {
+            response.status(400).send({ "message": "Ha sucedido un error" });
+        }
+        else
+            response.redirect('/cierre');
     })
 })
 
