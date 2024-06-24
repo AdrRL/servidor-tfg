@@ -280,17 +280,6 @@ app.get("/confirmarUsuario/:email/:key", function(request, response)
     })
 })
 
-app.post('/enviarJwt', function(request, response) 
-{
-    let jwt = request.body.jwt;
-    let user = JSON.parse(atob(jwt.split(".")[1]));
-    let email = user.email;
-    sistema.usuarioGoogle({ "email": email }, function(obj) 
-    {
-        response.send({ 'email': obj.email });
-    })
-});
-
 app.get("/cerrarSesion/:email", haIniciado, function(request, response) 
 {
     let email = request.params.email;
