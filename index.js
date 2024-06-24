@@ -255,7 +255,7 @@ app.put("/actualizarUsuario/:email", haIniciado, function(request, response)
         if (res.email !== -1)
             response.json({ "Correcto": true });
         else
-            response.status(400).json({ "message": "Usuario no encontrado" });
+            response.status(404).json({ "message": "Usuario no encontrado" });
     });
 });
 
